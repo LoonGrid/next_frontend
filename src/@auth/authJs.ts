@@ -44,6 +44,7 @@ export const providers: Provider[] = [
 			}
 			const { access_token, refresh_token } = data.payload;
 			setGlobalHeaders({ Authorization: `Bearer ${access_token}` });
+			setGlobalHeadersLoon({ Authorization: `Bearer ${access_token}` });
 
 			if (formInput.formType === 'signin') {
 				if (formInput.password === '' || formInput.email !== 'akkrumesh@gmail.com') {

@@ -1,13 +1,14 @@
 import { Action, Middleware, ThunkAction, configureStore, createSelector } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import apiService from 'src/store/apiService';
+import apiServiceLoon from 'src/store/apiServiceLoon';
 import rootReducer from './rootReducer';
 import { dynamicMiddleware } from './middleware';
 
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>;
 
-const middlewares: Middleware[] = [apiService.middleware, dynamicMiddleware];
+const middlewares: Middleware[] = [apiService.middleware,apiServiceLoon.middleware, dynamicMiddleware];
 
 export const makeStore = (preloadedState?: Partial<RootState>) => {
 	const store = configureStore({

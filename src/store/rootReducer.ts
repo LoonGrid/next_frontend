@@ -1,5 +1,6 @@
 import { combineSlices } from '@reduxjs/toolkit';
 import apiService from './apiService';
+import apiServiceLoon from './apiServiceLoon';
 import { navigationSlice } from '@/components/theme-layouts/components/navigation/store/navigationSlice';
 
 // @ts-expect-error Intentionally empty for declaration merging
@@ -16,7 +17,9 @@ export const rootReducer = combineSlices(
 	 * Lazy loaded slices
 	 */
 	{
-		[apiService.reducerPath]: apiService.reducer
+		[apiService.reducerPath]: apiService.reducer,
+		[apiServiceLoon.reducerPath]: apiServiceLoon.reducer,
+
 	}
 ).withLazyLoadedSlices<LazyLoadedSlices>();
 

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { type MRT_ColumnDef } from 'material-react-table';
 import DataTable from 'src/components/data-table/DataTable';
 import FuseLoading from '@fuse/core/FuseLoading';
@@ -10,9 +10,19 @@ import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import Button from '@mui/material/Button';
 import { EcommerceProduct, useDeleteECommerceProductsMutation, useGetECommerceProductsQuery } from '../ECommerceApi';
+import { useGetBusinessProfilesQuery } from '../BusinessProfileApi';
 
 function ProductsTable() {
+	const { data: business, isLoading :loadBusiness} = useGetBusinessProfilesQuery({});
 	const { data: products, isLoading } = useGetECommerceProductsQuery();
+	
+    
+	useEffect(() => {
+		if (business) {
+			console.log('business data updated:', business);
+		}
+	}, [business]);
+	console.log('business :', business);
 	const [removeProducts] = useDeleteECommerceProductsMutation();
 
 	const columns = useMemo<MRT_ColumnDef<EcommerceProduct>[]>(
@@ -56,73 +66,73 @@ function ProductsTable() {
 					</Typography>
 				)
 			},
-			{
-				accessorKey: 'categories',
-				header: 'Category',
-				accessorFn: (row) => (
-					<div className="flex flex-wrap space-x-2">
-						{row.categories.map((item) => (
-							<Chip
-								key={item}
-								className="text-sm"
-								size="small"
-								color="default"
-								label={item}
-							/>
-						))}
-					</div>
-				)
-			},
-			{
-				accessorKey: 'priceTaxIncl',
-				header: 'Price',
-				accessorFn: (row) => `$${row.priceTaxIncl}`
-			},
-			{
-				accessorKey: 'quantity',
-				header: 'Quantity',
-				accessorFn: (row) => (
-					<div className="flex items-center space-x-8">
-						<span>{row.quantity}</span>
-						<i
-							className={clsx(
-								'inline-block w-8 h-8 rounded',
-								row.quantity <= 5 && 'bg-red',
-								row.quantity > 5 && row.quantity <= 25 && 'bg-orange',
-								row.quantity > 25 && 'bg-green'
-							)}
-						/>
-					</div>
-				)
-			},
-			{
-				accessorKey: 'active',
-				header: 'Active',
-				accessorFn: (row) => (
-					<div className="flex items-center">
-						{row.active ? (
-							<FuseSvgIcon
-								className="text-green"
-								size={20}
-							>
-								heroicons-outline:check-circle
-							</FuseSvgIcon>
-						) : (
-							<FuseSvgIcon
-								className="text-red"
-								size={20}
-							>
-								heroicons-outline:minus-circle
-							</FuseSvgIcon>
-						)}
-					</div>
-				)
-			}
+			// {
+			// 	accessorKey: 'categories',
+			// 	header: 'Category',
+			// 	accessorFn: (row) => (
+			// 		<div className="flex flex-wrap space-x-2">
+			// 			{row.categories.map((item) => (
+			// 				<Chip
+			// 					key={item}
+			// 					className="text-sm"
+			// 					size="small"
+			// 					color="default"
+			// 					label={item}
+			// 				/>
+			// 			))}
+			// 		</div>
+			// 	)
+			// },
+			// {
+			// 	accessorKey: 'priceTaxIncl',
+			// 	header: 'Price',
+			// 	accessorFn: (row) => `$${row.priceTaxIncl}`
+			// },
+			// {
+			// 	accessorKey: 'quantity',
+			// 	header: 'Quantity',
+			// 	accessorFn: (row) => (
+			// 		<div className="flex items-center space-x-8">
+			// 			<span>{row.quantity}</span>
+			// 			<i
+			// 				className={clsx(
+			// 					'inline-block w-8 h-8 rounded',
+			// 					row.quantity <= 5 && 'bg-red',
+			// 					row.quantity > 5 && row.quantity <= 25 && 'bg-orange',
+			// 					row.quantity > 25 && 'bg-green'
+			// 				)}
+			// 			/>
+			// 		</div>
+			// 	)
+			// },
+			// {
+			// 	accessorKey: 'active',
+			// 	header: 'Active',
+			// 	accessorFn: (row) => (
+			// 		<div className="flex items-center">
+			// 			{row.active ? (
+			// 				<FuseSvgIcon
+			// 					className="text-green"
+			// 					size={20}
+			// 				>
+			// 					heroicons-outline:check-circle
+			// 				</FuseSvgIcon>
+			// 			) : (
+			// 				<FuseSvgIcon
+			// 					className="text-red"
+			// 					size={20}
+			// 				>
+			// 					heroicons-outline:minus-circle
+			// 				</FuseSvgIcon>
+			// 			)}
+			// 		</div>
+			// 	)
+			// }
 		],
 		[]
 	);
 
-	if (isLoading) {
+	if (loadBusiness) {
 		return <FuseLoading />;
 	}
 
@@ -132,7 +142,7 @@ function ProductsTable() {
 			elevation={0}
 		>
 			<DataTable
-				data={products}
+				data={business.payload}
 				columns={columns}
 				renderRowActionMenuItems={({ closeMenu, row, table }) => [
 					<MenuItem

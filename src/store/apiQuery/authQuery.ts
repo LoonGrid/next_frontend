@@ -10,7 +10,6 @@ const handleResponse = async (response) => {
 
 export const loginUser = async (identifier, password) => {
     try {
-        console.log(API_BASE_URL)
         const response = await fetch(`${API_BASE_URL}/oauth/token`, {
             method: 'POST',
             headers: {

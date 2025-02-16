@@ -25,6 +25,7 @@ export const globalHeaders: Record<string, string> = {};
 
 // Function to update global headers
 export const setGlobalHeadersLoon = (newHeaders: Record<string, string>) => {
+console.log('newHeaders :', newHeaders);
 	Object.assign(globalHeaders, newHeaders);
 };
 
