@@ -32,7 +32,7 @@ function BasicInfoTab() {
 				)}
 			/>
 
-			<Controller
+			{/* <Controller
 				name="description"
 				control={control}
 				render={({ field }) => (
@@ -106,7 +106,7 @@ function BasicInfoTab() {
 						)}
 					/>
 				)}
-			/>
+			/> */}
 		</div>
 	);
 }

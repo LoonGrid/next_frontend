@@ -13,6 +13,10 @@ const BusinessProfileApi = api
 			getBusinessProfiles: build.query<any, any>({
 				query: () => ({ url: `/businesses/profiles` }),
 				providesTags: ['businesses_type']
+			}),
+			getBusinessProfilesById: build.query<any, any>({
+				query: ({id}) => ({ url: `/businesses/profiles/${id}` }),
+				providesTags: ['businesses_type']
 			})
 		}),
 		overrideExisting: false
@@ -22,7 +26,8 @@ export default BusinessProfileApi;
 
 
 export const {
-	useGetBusinessProfilesQuery
+	useGetBusinessProfilesQuery,
+	useGetBusinessProfilesByIdQuery
 } = BusinessProfileApi;
 
 

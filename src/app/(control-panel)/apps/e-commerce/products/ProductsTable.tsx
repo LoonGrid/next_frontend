@@ -59,7 +59,7 @@ function ProductsTable() {
 				Cell: ({ row }) => (
 					<Typography
 						component={Link}
-						to={`/apps/e-commerce/products/${row.original.id}/${row.original.handle}`}
+						to={`/apps/e-commerce/products/${row.original.id}`}
 						role="button"
 					>
 						<u>{row.original.name}</u>

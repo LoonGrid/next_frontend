@@ -18,11 +18,12 @@ import FuseTab from 'src/components/tabs/FuseTab';
 import ProductHeader from './ProductHeader';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import InventoryTab from './tabs/InventoryTab';
-import PricingTab from './tabs/PricingTab';
+import LocationTab from './tabs/LocationTab';
 import ProductImagesTab from './tabs/ProductImagesTab';
 import ShippingTab from './tabs/ShippingTab';
 import { useGetECommerceProductQuery } from '../../../ECommerceApi';
 import ProductModel from '../../models/ProductModel';
+import { useGetBusinessProfilesByIdQuery } from '../../../BusinessProfileApi';
 
 /**
  * Form Validation Schema
@@ -41,14 +42,23 @@ function Product() {
 
 	const { productId } = routeParams;
 
+	// const {
+	// 	data: product,
+	// 	isLoading,
+	// 	isError
+	// } = useGetECommerceProductQuery(productId, {
+	// 	skip: !productId || productId === 'new'
+	// });
+
 	const {
-		data: product,
+		data: productLoon,
 		isLoading,
 		isError
-	} = useGetECommerceProductQuery(productId, {
+		
+	} = useGetBusinessProfilesByIdQuery({id:productId}, {
 		skip: !productId || productId === 'new'
 	});
-
+	console.log('productLoon :', productLoon);
 	const [tabValue, setTabValue] = useState('basic-info');
 
 	const methods = useForm({
@@ -68,10 +78,10 @@ function Product() {
 	}, [productId, reset]);
 
 	useEffect(() => {
-		if (product) {
-			reset({ ...product });
+		if (productLoon?.payload) {
+			reset({ ...productLoon.payload });
 		}
-	}, [product, reset]);
+	}, [productLoon, reset]);
 
 	/**
 	 * Tab Change
@@ -116,7 +126,7 @@ function Product() {
 	/**
 	 * Wait while product data is loading and form is setted
 	 */
-	if (_.isEmpty(form) || (product && routeParams.productId !== product.id && routeParams.productId !== 'new')) {
+	if (_.isEmpty(form) || (productLoon && routeParams.productId !== productLoon.payload.id && routeParams.productId !== 'new')) {
 		return <FuseLoading />;
 	}
 
@@ -135,34 +145,31 @@ function Product() {
 								label="Basic Info"
 							/>
 							<FuseTab
-								value="product-images"
-								label="Product Images"
+								value="location"
+								label="Location"
 							/>
-							<FuseTab
-								value="pricing"
-								label="Pricing"
-							/>
+							
 							<FuseTab
 								value="inventory"
 								label="Inventory"
 							/>
 							<FuseTab
 								value="shipping"
-								label="Shipping"
+								label="Products"
 							/>
 						</FuseTabs>
 						<div className="">
 							<div className={tabValue !== 'basic-info' ? 'hidden' : ''}>
 								<BasicInfoTab />
 							</div>
-
-							<div className={tabValue !== 'product-images' ? 'hidden' : ''}>
+							<div className={tabValue !== 'location' ? 'hidden' : ''}>
+								<LocationTab />
+							</div>
+							{/* <div className={tabValue !== 'product-images' ? 'hidden' : ''}>
 								<ProductImagesTab />
 							</div>
 
-							<div className={tabValue !== 'pricing' ? 'hidden' : ''}>
-								<PricingTab />
-							</div>
+							
 
 							<div className={tabValue !== 'inventory' ? 'hidden' : ''}>
 								<InventoryTab />
@@ -170,7 +177,7 @@ function Product() {
 
 							<div className={tabValue !== 'shipping' ? 'hidden' : ''}>
 								<ShippingTab />
-							</div>
+							</div> */}
 						</div>
 					</div>
 				}

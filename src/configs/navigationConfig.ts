@@ -67,14 +67,14 @@ const navigationConfig: FuseNavItemType[] = [
 				end: true
 			},
 			{
-				id: 'e-commerce-product-detail',
-				title: 'Product Detail',
+				id: 'business-detail',
+				title: 'Business Profile',
 				type: 'item',
 				url: '/apps/e-commerce/products/1/a-walk-amongst-friends-canvas-print'
 			},
 			{
-				id: 'e-commerce-new-product',
-				title: 'New Product',
+				id: 'business-new-profile',
+				title: 'New Business',
 				type: 'item',
 				url: '/apps/e-commerce/products/new'
 			}
